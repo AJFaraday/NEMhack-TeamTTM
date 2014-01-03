@@ -16,13 +16,12 @@ end
 
 # Get a list of media close to a given latitude and longitude.
 
-last_20_images = Instagram.media_search("51.236220","-0.570409")
-
-last_20_urls = last_20_images.collect{|x|x[:images][:standard_resolution][:url]}
+images = Instagram.media_search("51.236220","-0.570409")
 
 image_list = `ls #{File.dirname(__FILE__)}/../images`
 
-last_20_urls.each do |image_url|
+images.each do |image|
+  image_url = image[:images][:standard_resolution][:url]
   if image_list.include?(image_url.split('/')[-1])
     puts "#{image_url} is already downloaded."
   else

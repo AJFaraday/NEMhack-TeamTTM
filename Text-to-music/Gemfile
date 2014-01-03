@@ -5,3 +5,5 @@ gem "highline"
 gem "twitter_oauth"
 
 gem 'instagram'
+gem 'activerecord'
+gem 'sqlite3'
