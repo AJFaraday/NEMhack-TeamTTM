@@ -1,0 +1,34 @@
+#
+# Andrew James Faraday - May 2012
+# 
+# A simple config file to avoid repeat data input and change details as required.
+# When you first install the script you will need to make a copy of this file called 'config.yml'
+#
+
+# These attributes will affect the TCP connection from ruby to pure data.
+# 127.0.0.1 is the computer that's running the script and 3939 is the default port.
+connection:
+  hostname: '127.0.0.1'
+  port: 3939
+
+# Attributes for Twitter have been moved out to twitter.yml (you may need to copy this from twitter.yml.template
+
+#
+# The default feed url for the rss aggregator
+#
+rss:
+  default_feed: 'http://feeds.bbci.co.uk/news/rss.xml'
+  github:
+    repo: 'AJFaraday/Text-to-music'
+    branch: 'master'
+    polling_time: 60
+#
+# Music settings: 
+#
+# transpose denotes the semitones up or down the letter and number notes will be moved by.
+# speed is the time from one note to the next being triggered
+# this is only overridden on manual import
+music:
+  transpose: 10
+  speed: 0.15
+
