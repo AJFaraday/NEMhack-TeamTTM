@@ -13,6 +13,10 @@ connection:
 
 # Attributes for Twitter have been moved out to twitter.yml (you may need to copy this from twitter.yml.template
 
+instagram:
+  client_id:
+  client_secret:
+
 #
 # The default feed url for the rss aggregator
 #
