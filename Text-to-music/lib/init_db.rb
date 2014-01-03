@@ -4,7 +4,7 @@ gem 'activerecord'
 require 'sqlite3'
 require 'active_record'
 
-require './lib/classes.rb'
+require './lib/insta_image.rb'
 
 # Database Creation script for Hear The City
 #
