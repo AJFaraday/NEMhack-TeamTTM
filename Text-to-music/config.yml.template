@@ -36,3 +36,15 @@ music:
   transpose: 10
   speed: 0.15
 
+#
+# database for hear the city
+#
+database:
+  adapter: mysql2
+  database: hear_the_city
+  host: localhost
+  username: root
+
+instagram:
+  client_id: da31ffecc4054e16b71a40fba9b30fa8
+  client_secret:

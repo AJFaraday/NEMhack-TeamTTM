@@ -1,7 +1,18 @@
 # ActiveRecord classes to keep hold of working data
-
+require 'socket'
 class InstaImage < ActiveRecord::Base
 
+  after_save :drop_message
+  def drop_message
+    # Current computers IP
+    ip = Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]
+    bus = MessageBus.find_by_label 'Instagram'
+    bus.messages.create!(
+      :ip_address => ip,
+      :text => "Image downloaded: #{self.label}"
+    )
+  end
+ 
   def InstaImage.create_from_array(array)
     if array.any?
       image_list = `ls #{File.dirname(__FILE__)}/../images`

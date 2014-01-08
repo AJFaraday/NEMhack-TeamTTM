@@ -16,13 +16,10 @@ Dir["./lib/models/*.rb"].each {|file| require file }
 # ruby scripts/drop_database.rb
 #
 
-# Use local sqlite
-ActiveRecord::Base.establish_connection(
-  :adapter => 'mysql2',
-  :database => 'hear_the_city',
-  :host => 'localhost',
-  :username => 'root'
-)
+# Use local mysql
+
+config = YAML.load_file("config.yml")
+ActiveRecord::Base.establish_connection(config['database'])
 
 # create missing tables 
 unless InstaImage.table_exists?
@@ -38,17 +35,29 @@ unless InstaImage.table_exists?
 end
 
 unless MessageBus.table_exists?
-
+  ActiveRecord::Schema.define do
+    create_table :message_buses do |t|
+      t.column :label, :string
+      t.column :script_path, :string 
+      t.column :model_name, :string
+    end
+  end
+ 
+  MessageBus.create!(
+    :label => 'Instagram',
+    :script_path => 'scripts/instagram_location_search.rb',
+    :model_name => 'InstaImage'
+  )
 end
 
+unless Message.table_exists?
+  ActiveRecord::Schema.define do
+    create_table :messages do |t|
+      t.column :text, :string
+      t.column :ip_address, :string
+      t.column :message_bus_id, :integer
+    end
+  end
 
-
-
-
-
-
-
-
-
-
+end
 
