@@ -22,7 +22,7 @@ class InstaImage < ActiveRecord::Base
         if InstaImage.downloaded?(i.filename)
           puts "#{i.url} is already downloaded."
         else
-          `cd #{File.dirname(__FILE__)}/../images && wget #{i.url}`
+          `cd #{File.dirname(__FILE__)}/../../images && wget #{i.url}`
           i.save!
         end
       end

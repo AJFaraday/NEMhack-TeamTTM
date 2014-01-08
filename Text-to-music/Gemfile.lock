@@ -47,8 +47,10 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     multipart-post (1.2.0)
+    mysql2 (0.3.14)
     oauth (0.4.7)
     simple_oauth (0.2.0)
+    sqlite3 (1.3.7)
     tweetstream (2.5.0)
       daemons (~> 1.1)
       em-http-request (~> 1.0.2)
@@ -73,5 +75,7 @@ DEPENDENCIES
   activerecord
   highline
   instagram
+  mysql2
+  sqlite3
   tweetstream
   twitter_oauth

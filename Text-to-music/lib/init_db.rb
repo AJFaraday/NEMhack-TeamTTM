@@ -1,10 +1,11 @@
 require 'rubygems'
 gem 'activerecord'
 
-require 'sqlite3'
+require 'mysql2'
 require 'active_record'
 
-require './lib/insta_image.rb'
+# require all files in the models directory
+Dir["./lib/models/*.rb"].each {|file| require file }
 
 # Database Creation script for Hear The City
 #
@@ -17,10 +18,11 @@ require './lib/insta_image.rb'
 
 # Use local sqlite
 ActiveRecord::Base.establish_connection(
-  :adapter => 'sqlite3',
-  :database => 'htcity.db'
+  :adapter => 'mysql2',
+  :database => 'hear_the_city',
+  :host => 'localhost',
+  :username => 'root'
 )
-
 
 # create missing tables 
 unless InstaImage.table_exists?
@@ -34,5 +36,19 @@ unless InstaImage.table_exists?
     end 
   end
 end
+
+unless MessageBus.table_exists?
+
+end
+
+
+
+
+
+
+
+
+
+
 
 
