@@ -60,7 +60,7 @@ class PureData
     armed = true
     string.chars.each do |c|
       if armed 
-        connection.puts "osc words #{words.shift};"
+        connection.puts "osc #{words.shift};"
         armed = false
       end 
       armed = true if c == ' ' 
@@ -70,7 +70,6 @@ class PureData
       sleep speed
     end
   end
-
 
   #
   # accepts the 'place' and 'geo' hashes from a tweet (TweetStream::Hash) and dumps parts of it to puredata
