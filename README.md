@@ -105,6 +105,31 @@ Possible:
       lat
     </td>
   </tr>  
+  <tr>
+    <td>Noisetube</td>
+    <td>http://noisetube.net/api_overview</td>
+    <td>Noise level measurements in a given city - not sure about this, it looks good for finding past levels and change over time. Less so for here and now. Mostly this would be one figure. "how loud is here?"</td>
+    <td>
+      (noise measurements)<br/>
+      lat<br/>
+      long<br/>
+      tags<br/>
+      l (would appear to be actual noise level, possibly decibels)
+    </td>
+  </tr>
+  <tr>
+    <td>BBC News</td>
+    <td>news.bbc.co.uk</td>
+    <td>News RSS feeds, this get's fairly localised within the UK (counties and large cities), not so for Brussels.</td>
+    <td>
+      Healine<br/>
+      sub-header (short paragraph)<br/>
+      main body<br/>
+      time posted
+    </td>
+    
+  </tr>
+
 </table>
 
 
