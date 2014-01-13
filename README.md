@@ -24,12 +24,14 @@ Because hear the city is an attempt to produce an artistic installation with dat
 
 Currently implemented (data gathering):
 
+Data gethering implimentation must mean the data is gathered and stored in the hear the city database, so it can be easily retrieved for installation use.
+
 <table>
   <tr>
     <th>Name</th>
     <th>Website</th>
-    <th>Description<th>
-    <th>attributes</th>
+    <th>Description</th>
+    <th>Attributes</th>
   </tr>
   <tr>
     <td>Instagram</td>
@@ -44,3 +46,65 @@ Currently implemented (data gathering):
     </td>
   </tr>
 </table>
+
+Currently implimented (gathering and installation)
+
+(none)
+
+Possible:
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Possible Website(s)</th>
+    <th>Description</th>
+    <th>Possible<br/>Attributes</th>
+  </tr>
+  <tr>
+    <td>Twitter</td>
+    <td>www.twitter.com</td>
+    <td>Short (up to 140 character) messages - things being said about that place</td>
+    <td>
+      tweet<br/>
+      user<br/>
+      lat<br/>
+      long<br/>
+    </td>
+  </tr>
+  <tr>
+    <td>Weather</td>
+    <td>http://api.openweathermap.org/data/2.5/weather?q=London,uk</td>
+    <td>Weather data for the current time and place</td>
+    <td>
+      sunrise<br/>
+      sunset<br/>
+      weather summary (e.g. rain)<br/>
+      temperature (also min and max)<br/>
+      pressure<br/>
+      humidity<br/>
+      wind speed and direction<br/>
+      amount of rain
+    </td>
+  </tr>
+  <tr>
+    <td>Smart Cities Guide</td>
+    <td>http://mashweb.fokus.fraunhofer.de:3008/api/cities?name=Nantes</td>
+    <td>General city and point of interest information, seems limited. (does not include Brussels or London, or anywhere in England or Belgium)</td>
+    <td>
+      <h4>City</h4>
+      long<br/>
+      lat<br/>
+      description<br/>
+      name<br/>
+      image (url)<br/>
+      <h4>POI</h4>
+      name<br/>
+      description<br/>
+      image<br/>
+      long<br/>
+      lat
+    </td>
+  </tr>  
+</table>
+
+

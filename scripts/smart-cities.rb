@@ -17,7 +17,7 @@
 # The above command will use this file to read and sonify this file including this comment about reading and sonifying this file.
 #
 
-require './lib/pd-connect'
+require './Text-to-music/lib/pd-connect'
 require './lib/city_data'
 include CityData
 
