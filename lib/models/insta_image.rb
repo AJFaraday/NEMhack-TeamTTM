@@ -2,7 +2,7 @@
 require 'socket'
 class InstaImage < ActiveRecord::Base
 
-  after_save :drop_message
+  after_create :drop_message
   def drop_message
     # Current computers IP
     ip = Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]

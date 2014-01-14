@@ -1,0 +1,50 @@
+.header {
+    
+}
+
+body {
+  background-color: #78C7E3;
+  width: 1024px; 
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.holder {
+  background-color: #78E3C7;
+  width: 1024px;
+  border-radius: 30px 20px 80px 20px;
+  padding:50px;
+}
+
+.foot {
+  
+}
+
+.messages {
+  
+}
+
+.message_bus{
+ 
+}
+
+.message_content{
+
+}
+
+.message {
+  
+}
+
+span.message_source {
+
+}
+
+span.message_content {
+
+}
+
+.message_model_count {
+  margin-top:10px;
+}
+

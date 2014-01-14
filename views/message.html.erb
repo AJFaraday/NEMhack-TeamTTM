@@ -1,0 +1,9 @@
+<% message_bus.messages.all(:order => 'id desc', :limit => 5).each do |message| %>
+   <div class='message'>
+     <span class='message_source'>[<%= message.ip_address %>]</span> -
+     <span class='message_content'><%= message.text %></span>
+   </div>
+<% end %>
+<div class='message_model_count'>
+  <%= message_bus.model_name %> count: <%= message_bus.model_name.constantize.count  %>
+</div>

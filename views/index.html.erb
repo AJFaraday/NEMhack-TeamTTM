@@ -1,0 +1,14 @@
+<div class='messages'>
+  <% @message_busses.each do |message_bus| %>
+    <div class='message_bus'>
+      <h1><%= message_bus.label %></h1>
+      <div class='bus_content' id="message_bus_<%= message_bus.id %>_content">
+        <%= erb :"message.html", :locals => {:message_bus => message_bus}%>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script type='text/javascript'>
+  start_polling();
+</script>
