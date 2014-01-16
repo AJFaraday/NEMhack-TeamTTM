@@ -1,23 +1,23 @@
 \version "2.14.2"
 
-#(set! paper-alist (cons '("two line" . (cons (* 15 in) (* 3 in))) paper-alist))
+#(set! paper-alist (cons '("two line" . (cons (* 15 in) (* 4 in))) paper-alist))
 
 \paper {#(set-paper-size "two line")}
 
-rhMusic = \relative c' {
-  c8 r e r c'
+rhMusic = {
+  <%= @right_hand %>
 }
 
-lhMusic = \relative c {
-  r8 d r c r
+lhMusic = {
+  <%= @left_hand %>
 }
 
 rhChars = \lyricmode {
-  c e c
+  <%= @right_lyrics %>
 }
 
 lhChars = \lyricmode {
-  d c 
+  <%= @left_lyrics %>
 }
 
 
