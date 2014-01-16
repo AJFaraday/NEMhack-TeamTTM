@@ -4,6 +4,9 @@ gem 'activerecord'
 require 'mysql2'
 require 'active_record'
 
+require './Text-to-music/lib/pd-connect'
+
+
 # require all files in the models directory
 Dir["./lib/models/*.rb"].each {|file| require file }
 
@@ -20,6 +23,7 @@ Dir["./lib/models/*.rb"].each {|file| require file }
 
 config = YAML.load_file("config.yml")
 ActiveRecord::Base.establish_connection(config['database'])
+
 
 # create missing tables 
 unless InstaImage.table_exists?
@@ -58,6 +62,15 @@ unless Message.table_exists?
       t.column :message_bus_id, :integer
     end
   end
+end
 
+unless TTMMessage.table_exists?
+  ActiveRecord::Schema.define do
+    create_table :ttm_messages do |t|
+      t.column :text, :string
+      t.column :file_generated, :boolean
+      t.column :played, :boolean
+    end
+  end
 end
 

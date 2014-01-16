@@ -5,7 +5,7 @@
 #
 
 require 'socket'
-require './lib/character'
+require "#{File.dirname(__FILE__)}/character"
 require 'yaml'
 
 class PureData
@@ -21,7 +21,7 @@ class PureData
   #
   def initialize
     begin
-      config = YAML.load_file("config.yml")
+      config = YAML.load_file("#{File.dirname(__FILE__)}/../config.yml")
       connection = config['connection']
       self.music = config['music']
     rescue
@@ -44,7 +44,7 @@ class PureData
   end
 
   def reload_music_params
-    config = YAML.load_file('config.yml')
+    config = YAML.load_file("#{File.dirname(__FILE__)}/../config.yml")
     self.music = config['music']
   end
 
@@ -56,7 +56,7 @@ class PureData
   def send_string(string,speed=nil)
     words = string.split(' ')
     reload_music_params
-    speed ||= music['speed']
+    speed ||= self.music['speed']
     armed = true
     string.chars.each do |c|
       if armed 

@@ -5,6 +5,7 @@ Written for the EU arts council's ICT ART Connect project.
 
 setup:
 
+* sudo apt-get install lilypond
 * bundle install
 * mysql -u root -p
 * create database hear_the_city;
