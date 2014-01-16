@@ -80,12 +80,14 @@ class TTMMessage < ActiveRecord::Base
 
   def add_to_left(note,char)
     @left_hand << "#{note}8 "
-    @right_hand << "r8 "
+    # r is a rest
+    # s is an invisible rest
+    @right_hand << "s8 "
     @left_lyrics << "\"#{char}\"8 "
   end
 
   def add_to_right(note,char)
-    @left_hand << "r8 "
+    @left_hand << "s8 "
     @right_hand << "#{note}8 "
     @right_lyrics << "\"#{char}\"8 "    
   end
