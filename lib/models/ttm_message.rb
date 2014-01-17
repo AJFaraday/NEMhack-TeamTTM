@@ -101,14 +101,22 @@ class TTMMessage < ActiveRecord::Base
     lilypond_markup = ERB.new(File.open("#{File.dirname(__FILE__)}/../../views/score_fragment.ly.erb").read)
     #lilypond --png -o notation/test notation/test.ly
     File.open("#{File.dirname(__FILE__)}/../../notation/tmp.ly", 'w') { |file| file.write(lilypond_markup.result(binding))}
-    puts "lilypond --png -o #{self.score_image} #{File.dirname(__FILE__)}/../../notation/tmp.ly"
-    `lilypond --png -o #{self.score_image} #{File.dirname(__FILE__)}/../../notation/tmp.ly`
+    puts "lilypond --png -o #{self.image_command} #{File.dirname(__FILE__)}/../../notation/tmp.ly"
+         `lilypond --png -o #{self.image_command} #{File.dirname(__FILE__)}/../../notation/tmp.ly`
   end
 
-  def score_image
-    "#{File.dirname(__FILE__)}/../../notation/fragment_#{self.id}"
+  def image_command
+    "#{File.dirname(__FILE__)}/../../public/notation/#{self.image_name}"
+  end
+
+  def image_name
+    "fragment_#{self.id}"
   end
  
+  def image_path
+    "public/notation/#{image_name}.png"
+  end
+
   def play
     TTMMessage.pd.send_string(self.text)
     self.update_attribute(:played, true) 
