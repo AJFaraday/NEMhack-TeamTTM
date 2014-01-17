@@ -7,7 +7,7 @@ database:
   host: localhost
   username: root
 
-location: Guildford, surrey
+location: Guildford, Surrey
 
 instagram:
   client_id: da31ffecc4054e16b71a40fba9b30fa8

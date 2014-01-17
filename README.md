@@ -9,14 +9,19 @@ setup:
 * bundle install
 * mysql -u root -p
 * create database hear_the_city;
+* `cp config.yml.template config.yml`
 
 Command line operation: 
 
 To watch existing messages:
 `ruby scripts/monitor.rb`
+`rackup config.ru`
 
 To download instagram images for use elsewhere:
 `ruby scripts/instagram_location_search.rb`
+
+To gather tweets per location:
+`ruby scripts/twitter.rb`
 
 Types of data
 -------------

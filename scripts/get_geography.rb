@@ -51,7 +51,7 @@ e = east   = geo['geometry']['viewport']['northeast']['lng']
 
 data = {
   :place => geo['formatted_address'],
-  :boundaries => [s,w,n,w,n,e,s,e].join(','),
+  :boundaries => [w,s,e,n],
   :north => n,
   :south => s,
   :west => w,
@@ -59,3 +59,4 @@ data = {
 }
 
 File.open("#{File.dirname(__FILE__)}/../geography.yml", 'w') {|f| f.write data.to_yaml }
+

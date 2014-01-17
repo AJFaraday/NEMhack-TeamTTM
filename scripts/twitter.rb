@@ -12,15 +12,7 @@ require './Text-to-music/lib/twitter-auth'
 require './lib/init_db'
  
 # Load attributes from the config file
-config = YAML.load_file("#{File.dirname('__FILE__')}/Text-to-music/twitter.yml")
-
-search = config['default_search'].split(' ')
-# default search is set if arguments are empty
-if ARGV.empty?
-  search = search
-else
-  search = ARGV.join ' '
-end
+config = YAML.load_file("#{File.dirname(__FILE__)}/../Text-to-music/twitter.yml")
 
 consumer_key, consumer_secret, oauth_token, oauth_token_secret = get_twitter_auth(config)
 
@@ -36,17 +28,15 @@ end
 
 # Set up new TweetStream client
 ts = TweetStream::Client.new
-# Last bits of information
-#TODO catch incorrect username/password at this stage
-puts 'initialization finished'
-puts "search: #{search}" 
 
 ts.on_error do |error|
   puts "ERROR: #{error}"
 end
 
+geo = YAML.load_file("#{File.dirname(__FILE__)}/../geography.yml")
+
 # Code to be run on finding a tweet matching search term.
-ts.track(search) do |status|
+ts.locations(geo[:boundaries]) do |status|
   begin
     # Output user and source  to the console 
     puts "user: #{status.user.screen_name}"
@@ -63,6 +53,7 @@ ts.track(search) do |status|
     string = "[#{status.user.screen_name}] #{status.text}"
     puts string
     puts ''
+    sleep 1
   rescue => er
     # display any errors that occur while keeping the stream open.
     puts er.message
