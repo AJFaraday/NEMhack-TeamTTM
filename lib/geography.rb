@@ -37,26 +37,39 @@ require 'yaml'
   "types"=>["locality", "political"]
 }
 =end
-config = YAML.load_file("#{File.dirname(__FILE__)}/../config.yml")
 
-# search result, 
-geo = Geocoder.search(config['location'])[0].data
+class Geography
+ 
+  def Geography.get_location(location=nil)
 
-# four lines in the square boundary
-n = north  = geo['geometry']['viewport']['northeast']['lat']
-s = south  = geo['geometry']['viewport']['southwest']['lat']
-w = west   = geo['geometry']['viewport']['southwest']['lng']
-e = east   = geo['geometry']['viewport']['northeast']['lng']
+    unless location  
+      location = YAML.load_file("#{File.dirname(__FILE__)}/../config.yml")['location']
+    end
+    puts location
+    # search result, 
+    geo = Geocoder.search(location)[0]
+    geo = geo.data
+
+    # four lines in the square boundary
+    n = north  = geo['geometry']['viewport']['northeast']['lat']
+    s = south  = geo['geometry']['viewport']['southwest']['lat']
+    w = west   = geo['geometry']['viewport']['southwest']['lng']
+    e = east   = geo['geometry']['viewport']['northeast']['lng']
 
 
-data = {
-  :place => geo['formatted_address'],
-  :boundaries => [w,s,e,n],
-  :north => n,
-  :south => s,
-  :west => w,
-  :east => e
-}
+    data = {
+      :place => geo['formatted_address'],
+      :boundaries => [w,s,e,n],
+      :lng => geo['geometry']['location']['lng'],
+      :lat => geo['geometry']['location']['lat'],
+      :north => n,
+      :south => s,
+      :west => w,
+      :east => e
+    }
 
-File.open("#{File.dirname(__FILE__)}/../geography.yml", 'w') {|f| f.write data.to_yaml }
+    File.open("#{File.dirname(__FILE__)}/../geography.yml", 'w') {|f| f.write data.to_yaml }
+    data
+  end
 
+end

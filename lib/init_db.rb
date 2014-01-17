@@ -6,6 +6,9 @@ require 'active_record'
 
 require './Text-to-music/lib/pd-connect'
 
+require "#{File.dirname(__FILE__)}/geography.rb"
+
+puts Geography.get_location
 
 # require all files in the models directory
 Dir["./lib/models/*.rb"].each {|file| require file }

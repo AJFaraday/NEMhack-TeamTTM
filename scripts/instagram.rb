@@ -1,12 +1,10 @@
 require './lib/init_db.rb'
 require './lib/init_instagram.rb'
 
-# find latitude and longitude at:
-# http://www.latlong.net/convert-address-to-lat-long.html
+geo = YAML.load_file("#{File.dirname(__FILE__)}/../geography.yml")
 
-# Guildford 51.236220, -0.570409
-lat = 51.236220
-long = -0.570409
+lat = geo[:lat]
+long = geo[:lng]
 
 i = 0
 
