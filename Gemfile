@@ -12,3 +12,5 @@ gem 'mysql2'
 
 gem 'sinatra'
 gem 'json'
+
+gem 'geocoder'
