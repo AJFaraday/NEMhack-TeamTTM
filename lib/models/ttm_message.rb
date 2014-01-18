@@ -1,6 +1,10 @@
 require 'erb'
 require 'active_support'
+
+require "#{File.dirname(__FILE__)}/../../Text-to-music/lib/pd-connect"
 class TTMMessage < ActiveRecord::Base
+
+  belongs_to :source, :polymorphic => true
 
   LOWER_CASE_NOTES = [
     "c",  "cis", "d", "dis", "e", "f", "fis", "g", "gis", "a", "ais", "b", 
@@ -22,6 +26,8 @@ class TTMMessage < ActiveRecord::Base
 
   self.table_name = 'ttm_messages' 
 
+  
+  
   cattr_accessor :pd
 
   begin
@@ -33,18 +39,22 @@ class TTMMessage < ActiveRecord::Base
 
 
   after_create :generate_score
+  after_update :delete_if_finished
 
   def generate_score
-    #@left_hand = "a8 r b r c"
-    #@right_hand = "r8 a r b r"
-    #@left_lyrics = "1 3 5"
-    #@right_lyrics = "2 4"
     @left_hand =    ""
     @right_hand =   ""
     @left_lyrics =  ""
     @right_lyrics = ""
     self.text.chars.each_with_index{|char,index|generate_markup_for(char,index)}
     create_score_image
+  end
+
+  # 
+  # It it's been played and the score has been show. get rid.
+  #
+  def delete_if_finished
+    self.destroy if self.played and self.score_shown
   end
 
   def generate_markup_for(char,index)
@@ -99,10 +109,10 @@ class TTMMessage < ActiveRecord::Base
 
   def create_score_image
     lilypond_markup = ERB.new(File.open("#{File.dirname(__FILE__)}/../../views/score_fragment.ly.erb").read)
-    #lilypond --png -o notation/test notation/test.ly
     File.open("#{File.dirname(__FILE__)}/../../notation/tmp.ly", 'w') { |file| file.write(lilypond_markup.result(binding))}
     puts "lilypond --png -o #{self.image_command} #{File.dirname(__FILE__)}/../../notation/tmp.ly"
          `lilypond --png -o #{self.image_command} #{File.dirname(__FILE__)}/../../notation/tmp.ly`
+    self.update_attribute :file_generated, true
   end
 
   def image_command
@@ -114,12 +124,37 @@ class TTMMessage < ActiveRecord::Base
   end
  
   def image_path
-    "public/notation/#{image_name}.png"
+    "/notation/#{image_name}.png"
   end
 
   def play
     TTMMessage.pd.send_string(self.text)
     self.update_attribute(:played, true) 
   end
+ 
+  def TTMMessage.newest_unplayed
+    TTMMessage.first(:conditions => ['played is null'], :order => 'id desc')
+  end
+
+  def TTMMessage.newest_not_shown
+    message = TTMMessage.first(:conditions => ['score_shown is null'], :order => 'id desc')
+    if message 
+      message.update_attribute :score_shown, true
+    end
+    message
+  end 
+
+  def TTMMessage.oldest_unplayed
+    TTMMessage.first(:conditions => ['played is null'], :order => 'id asc')
+  end
+
+  def TTMMessage.oldest_not_shown
+    message = TTMMessage.first(:conditions => ['score_shown is null'], :order => 'id asc')
+    if message 
+      message.update_attribute :score_shown, true
+    end
+    message
+  end 
+
 
 end 

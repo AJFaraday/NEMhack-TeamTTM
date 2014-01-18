@@ -4,7 +4,6 @@ gem 'activerecord'
 require 'mysql2'
 require 'active_record'
 
-require './Text-to-music/lib/pd-connect'
 
 require "#{File.dirname(__FILE__)}/geography.rb"
 
@@ -52,8 +51,13 @@ unless MessageBus.table_exists?
  
   MessageBus.create!(
     :label => 'Instagram',
-    :script_path => 'scripts/instagram_location_search.rb',
+    :script_path => 'scripts/instagram.rb',
     :model_name => 'InstaImage'
+  )
+  MessageBus.create!(
+    :label => 'Twitter',
+    :script_path => 'scripts/twitter.rb',
+    :model_name => 'Tweet'
   )
 end
 
@@ -73,7 +77,20 @@ unless TTMMessage.table_exists?
       t.column :text, :string
       t.column :file_generated, :boolean
       t.column :played, :boolean
+      t.column :score_shown, :boolean
+      t.column :source_type, :string
+      t.column :source_id, :integer      
     end
   end
 end
 
+unless Tweet.table_exists?
+  ActiveRecord::Schema.define do
+    create_table :tweets do |t|
+      t.column :username, :string 
+      t.column :content, :string
+      t.column :lat, :float
+      t.column :long, :float
+    end
+  end
+end

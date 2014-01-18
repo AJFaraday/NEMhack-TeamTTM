@@ -18,6 +18,20 @@ class DbMonitor < Sinatra::Base
     display(:index)
   end 
 
+  get '/score' do
+    @message = TTMMessage.oldest_not_shown
+    display(:score)
+  end
+
+  get '/refresh_score' do
+    @message = TTMMessage.oldest_not_shown
+    if @message 
+      {:new => true, :image_path => @message.image_path}.to_json
+    else 
+      {:new => false}.to_json
+    end
+  end
+
   get '/get_messages' do
     @message_busses = MessageBus.all(:order => 'label asc') 
     @data = {}
@@ -26,6 +40,7 @@ class DbMonitor < Sinatra::Base
     end 
     @data.to_json
   end
+
 
   def display(view)
     result = ''

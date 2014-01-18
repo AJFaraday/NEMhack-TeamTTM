@@ -38,22 +38,22 @@ geo = YAML.load_file("#{File.dirname(__FILE__)}/../geography.yml")
 # Code to be run on finding a tweet matching search term.
 ts.locations(geo[:boundaries]) do |status|
   begin
-    # Output user and source  to the console 
-    puts "user: #{status.user.screen_name}"
-    puts "source: #{status.source}"
-    if status.place
-      puts "country: #{status.place.country}"
-      puts "place: #{status.place.name}"
-    end
     if status.geo and status.geo[:coordinates]
-      puts "lat: #{status.geo[:coordinates][0]}"
-      puts "long: #{status.geo[:coordinates][1]}"
+      lat = status.geo[:coordinates][0]
+      long = status.geo[:coordinates][1]
+    else 
+      lat = long = nil
     end
+
+    Tweet.create!(
+      :username => status.user.screen_name,
+      :content => status.text,
+      :lat => lat, 
+      :long => long
+    )
     
-    string = "[#{status.user.screen_name}] #{status.text}"
-    puts string
-    puts ''
-    sleep 1
+    puts "[#{status.user.screen_name}] #{status.text}"
+    sleep 0.5
   rescue => er
     # display any errors that occur while keeping the stream open.
     puts er.message
@@ -62,4 +62,3 @@ ts.locations(geo[:boundaries]) do |status|
 end
   
 
- 

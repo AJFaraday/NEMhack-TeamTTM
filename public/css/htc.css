@@ -9,6 +9,10 @@ body {
   margin-right:auto;
 }
 
+.menu {
+  margin: 10px;
+}
+
 .holder {
   background-color: #78E3C7;
   width: 1024px;

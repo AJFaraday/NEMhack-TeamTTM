@@ -1,0 +1,15 @@
+<h1>Score Fragments</h1>
+
+<p id='no_score_message' 
+   style='display:none;color:red;'>
+  There are no new scores to show. The score will be refreshed when there is.
+</p>
+<div class='score_holder'>
+  <% if @message %>
+    <img id='fragment' src="<%= @message.image_path%>"></img>
+  <% end %>
+</div>
+
+<script type='text/javascript'>
+  
+</script>
