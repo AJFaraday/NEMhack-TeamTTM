@@ -17,7 +17,6 @@ function refresh_messages() {
 var $waiting = false
 var $score_polling
 function refresh_score() {
-  console.log($waiting);
   jQuery.ajax({
     type: 'GET',
     cache: false,
@@ -25,21 +24,19 @@ function refresh_score() {
     success: function(response){
       response = JSON.parse(response)
       if (response['new']){
-        console.log('refresh');
         $('#fragment').attr('src',response['image_path']);        
         $('#no_score_message').hide();
+        $('#refresh_message').show();
         // end polling if started
         if($waiting==true){
-          console.log('end interval');
           window.clearInterval($score_polling);
           $waiting = false
         }
       } else {
-        console.log('start looking');
         $('#no_score_message').show();
+        $('#refresh_message').hide();
         //start polling
         if ($waiting==false) {
-          console.log('set interval')
           $waiting = true
           $score_polling = setInterval(function(){refresh_score();}, 1000);
         } 
