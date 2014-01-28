@@ -20,6 +20,13 @@ lhChars = \lyricmode {
   <%= @left_lyrics %>
 }
 
+rhHidden = {
+  \hideNotes <%= @hidden_notes %> \unHideNotes
+}
+
+hiddenLyrics = \lyricmode {
+  <%= @character_lyrics %>
+}
 
 \score {
   \new PianoStaff <<
@@ -27,14 +34,25 @@ lhChars = \lyricmode {
     \new Staff = "RH"  <<
       \key c \major
       \clef "treble"
-      \new Voice = "rhVoice" <<	
+
+      \new Voice = "rhHiddenVoice" <<
+        \rhHidden
+      >>
+
+      \new Voice = "rhVoice" <<
         \rhMusic 
       >>
+
+
+
     >>
     \new Lyrics \lyricsto "rhVoice" {
       \rhChars
     }
 
+    \new Lyrics \lyricsto "rhHiddenVoice" {
+      \hiddenLyrics
+    }
 
     \new Staff = "LH" <<
       \key c \major

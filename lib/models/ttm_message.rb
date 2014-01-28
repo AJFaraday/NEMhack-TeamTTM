@@ -48,6 +48,8 @@ class TTMMessage < ActiveRecord::Base
     @right_lyrics = ""
     @right_rests = 0
     @left_rests = 0
+    @hidden_notes = ""
+    @character_lyrics = ""
     self.text.chars.each_with_index{|char,index|generate_markup_for(char,index)}
     draw_left_rests
     draw_right_rests
@@ -89,6 +91,7 @@ class TTMMessage < ActiveRecord::Base
   def add_to_left(note,char)
     draw_left_rests
     @right_rests += 1
+    @hidden_notes << "s8 "
     @left_hand << "#{note}8 "
     @left_lyrics << "\"#{char}\"8 "
   end
@@ -97,20 +100,18 @@ class TTMMessage < ActiveRecord::Base
     draw_right_rests
     @left_rests += 1
     @right_hand << "#{note}8 "
-    @right_lyrics << "\"#{char}\"8 "    
+    @right_lyrics << "\"#{char}\"8 "
+    @hidden_notes << "s8 "
   end
 
   def add_char(char)
-    draw_left_rests
-    draw_right_rests
-    @right_hand << "\\hideNotes c''8 \\unHideNotes "
-    @right_lyrics << "\"#{char}\"8 "
-
+    #draw_left_rests
+    #draw_right_rests
+    @hidden_notes << "c''8 "
+    @character_lyrics << "\"#{char}\"8 "
+    @right_rests += 1
     @left_rests += 1
   end
-
-  attr_accessor :left_rests
-  attr_accessor :right_rests
 
   # r is a rest
   # s is an invisible rest
