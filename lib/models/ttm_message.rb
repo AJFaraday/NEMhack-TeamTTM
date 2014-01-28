@@ -46,7 +46,11 @@ class TTMMessage < ActiveRecord::Base
     @right_hand =   ""
     @left_lyrics =  ""
     @right_lyrics = ""
+    @right_rests = 0
+    @left_rests = 0
     self.text.chars.each_with_index{|char,index|generate_markup_for(char,index)}
+    draw_left_rests
+    draw_right_rests
     create_score_image
   end
 
@@ -77,34 +81,57 @@ class TTMMessage < ActiveRecord::Base
         else
           add_to_right(NUMBER_NOTES[n], char)
         end         
-      when 32 # space
-        add_rest(8)
-      when 46 # full stop
-        add_rest(4)
-      when 44 # comma
-        add_rest(8)
       else
-        puts '.'
+        add_char(char)
     end
   end
 
   def add_to_left(note,char)
+    draw_left_rests
+    @right_rests += 1
     @left_hand << "#{note}8 "
-    # r is a rest
-    # s is an invisible rest
-    @right_hand << "s8 "
     @left_lyrics << "\"#{char}\"8 "
   end
 
   def add_to_right(note,char)
-    @left_hand << "s8 "
+    draw_right_rests
+    @left_rests += 1
     @right_hand << "#{note}8 "
     @right_lyrics << "\"#{char}\"8 "    
   end
 
-  def add_rest(note_value)
-    @left_hand << "r#{note_value} "
-    @right_hand << "r#{note_value} "
+  def add_char(char)
+    draw_left_rests
+    draw_right_rests
+    @right_hand << "\\hideNotes c''8 \\unHideNotes "
+    @right_lyrics << "\"#{char}\"8 "
+
+    @left_rests += 1
+  end
+
+  attr_accessor :left_rests
+  attr_accessor :right_rests
+
+  # r is a rest
+  # s is an invisible rest
+  def draw_left_rests
+    if @left_rests > 0
+      big_rests = @left_rests / 2
+      small_rests = @left_rests % 2
+      big_rests.times{@left_hand << "r4 "}
+      @left_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      @left_rests = 0
+    end
+  end
+
+  def draw_right_rests
+    if @right_rests > 0
+      big_rests = @right_rests / 2
+      small_rests = @right_rests % 2
+      big_rests.times{@right_hand << "r4 "}
+      @right_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      @right_rests = 0
+    end
   end
 
   def create_score_image
