@@ -50,6 +50,7 @@ class TTMMessage < ActiveRecord::Base
     @left_rests = 0
     @hidden_notes = ""
     @character_lyrics = ""
+    @index = 0
     self.text.chars.each_with_index{|char,index|generate_markup_for(char,index)}
     draw_left_rests
     draw_right_rests
@@ -94,6 +95,8 @@ class TTMMessage < ActiveRecord::Base
     @hidden_notes << "s8 "
     @left_hand << "#{note}8 "
     @left_lyrics << "\"#{char}\"8 "
+
+    @index += 1
   end
 
   def add_to_right(note,char)
@@ -102,15 +105,19 @@ class TTMMessage < ActiveRecord::Base
     @right_hand << "#{note}8 "
     @right_lyrics << "\"#{char}\"8 "
     @hidden_notes << "s8 "
+
+    @index += 1
   end
 
   def add_char(char)
-    #draw_left_rests
-    #draw_right_rests
-    @hidden_notes << "c''8 "
+    draw_left_rests
+    draw_right_rests
+    @hidden_notes << "c'''''8 "
     @character_lyrics << "\"#{char}\"8 "
     @right_rests += 1
     @left_rests += 1
+
+    @index += 1
   end
 
   # r is a rest
@@ -119,8 +126,13 @@ class TTMMessage < ActiveRecord::Base
     if @left_rests > 0
       big_rests = @left_rests / 2
       small_rests = @left_rests % 2
-      big_rests.times{@left_hand << "r4 "}
-      @left_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      if (@index % 2) == 1
+        big_rests.times{@left_hand << "r4 "}
+        @left_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      else
+        @left_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+        big_rests.times{@left_hand << "r4 "}
+      end
       @left_rests = 0
     end
   end
@@ -129,8 +141,13 @@ class TTMMessage < ActiveRecord::Base
     if @right_rests > 0
       big_rests = @right_rests / 2
       small_rests = @right_rests % 2
-      big_rests.times{@right_hand << "r4 "}
-      @right_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      if (@index % 2) == 1
+        big_rests.times{@right_hand << "r4 "}
+        @right_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+      else
+        @right_hand << "r#{(8.0/small_rests).to_i} " if small_rests > 0
+        big_rests.times{@right_hand << "r4 "}
+      end
       @right_rests = 0
     end
   end
