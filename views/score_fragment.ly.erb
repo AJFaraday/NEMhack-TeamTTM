@@ -37,21 +37,25 @@ hiddenLyrics = \lyricmode {
 
       \new Voice = "rhHiddenVoice" <<
         \rhHidden
-      >> % lower voice
+      >> % upper voice
 
       \new Voice = "rhVoice" <<
         \rhMusic 
-      >> % upper voice
+      >> % lower voice
 
 
 
     >>
-    \new Lyrics \lyricsto "rhVoice" {
-      \rhChars
+    \new Lyrics \with { alignBelowContext = "RH" } {
+      \lyricsto "rhVoice" {
+        \rhChars
+      }
     }
 
-    \new Lyrics \lyricsto "rhHiddenVoice" {
-      \hiddenLyrics
+    \new Lyrics \with { alignBelowContext = "RH" } {
+      \lyricsto "rhHiddenVoice" {
+        \hiddenLyrics
+      }
     }
 
     \new Staff = "LH" <<

@@ -67,7 +67,7 @@ class TTMMessage < ActiveRecord::Base
   def generate_markup_for(char,index)
     n = char.bytes.to_a[0]
     case char.bytes.to_a[0] # get ascii number
-      when 97...122 # lower case
+      when 97...123 # lower case
         n = n - 97
         if n <= 11 
           add_to_left(LOWER_CASE_NOTES[n],char)
