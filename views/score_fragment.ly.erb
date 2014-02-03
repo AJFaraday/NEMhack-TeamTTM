@@ -24,10 +24,6 @@ rhHidden = {
   \hideNotes <%= @hidden_notes %> \unHideNotes
 }
 
-hiddenLyrics = \lyricmode {
-  <%= @character_lyrics %>
-}
-
 \score {
   \new PianoStaff <<
   
@@ -52,11 +48,7 @@ hiddenLyrics = \lyricmode {
       }
     }
 
-    \new Lyrics \with { alignBelowContext = "RH" } {
-      \lyricsto "rhHiddenVoice" {
-        \hiddenLyrics
-      }
-    }
+
 
     \new Staff = "LH" <<
       \key c \major

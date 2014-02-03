@@ -112,9 +112,9 @@ class TTMMessage < ActiveRecord::Base
   def add_char(char)
     draw_left_rests
     draw_right_rests
-    @hidden_notes << "c'''''8 "
-    @character_lyrics << "\"#{char}\"8 "
-    @right_rests += 1
+    @hidden_notes << "r8 "
+    @right_lyrics << "\"#{char}\"8 "
+    @right_hand << "\\hideNotes c''''8 \\unHideNotes "
     @left_rests += 1
 
     @index += 1
