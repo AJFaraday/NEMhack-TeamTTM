@@ -1,4 +1,4 @@
-#N canvas 179 117 621 231 10;
+#N canvas 179 118 621 231 10;
 #X obj 35 21 netreceive 3939;
 #N canvas 474 70 450 300 synth 0;
 #X obj 26 64 osc~;
@@ -478,7 +478,7 @@
 music scripts to work.;
 #X obj 34 65 route letter num punct osc;
 #X obj 145 103 s osc;
-#N canvas 763 223 450 325 osc 1;
+#N canvas 763 224 450 325 osc 0;
 #X obj -1209 224 sendOSC;
 #X msg -1211 2 connect 10.15.229.220 1234;
 #X obj -1210 -28 loadbang;
