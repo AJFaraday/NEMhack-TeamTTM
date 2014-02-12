@@ -14,6 +14,8 @@ void setup() {
   url = url.replace("HEIGHT",str(height));
   
   img = loadImage(url,"png");
+  
+  noLoop();
 }
 
 void draw() {
@@ -26,3 +28,5 @@ void draw() {
     ellipse(mouseX,mouseY,10,10);
   }
 }
+
+

@@ -138,4 +138,29 @@ Possible:
 
 </table>
 
+Processing
+----------
+
+Currently in initial learning stage, there's two sketches in play.
+
+Map:
+
+* Open processing
+* File > Open > /processing/map/map.pde
+
+This pulls a map from the google staticmaps api of a given location, with a given canvas size. 
+
+This is a proof of concept the next step is to find the boundaries of this image, or feed it a lat and long to get this image, instead of a location name. Then I can normalize lat/long info to be the correct x and y on the map.
+
+Ruby Connectivity:
+
+* Open Processing
+* make sure UDP library is in ~/sketchbook/libraries
+* if needed download http://ubaa.net/shared/processing/udp/ and unzip to ~/sketchbook/libraries
+* File > Open > /processing/udp_recieve/udp_recieve.pde
+* in the command line, run `ruby script/processing_test.rb`
+
+Again, POC, but ruby will generate X and Y co-ordinates which move down from the top, and move left and right with a random walk. Then transmit these to processing. 
+
+The next step is to use these co-ordinates for a few different purposes, so they can be used for tweet locations, tweet text and instagram (image and location).
 
