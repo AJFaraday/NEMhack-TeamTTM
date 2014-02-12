@@ -24,7 +24,8 @@ void receive( byte[] data, String ip, int port ) {  // <-- extended handler
   String[] parts = split(message, ",");
   int sentX = int(parts[0]);
   int sentY = int(parts[1]);    //"24" -> 24
-   
+
+  noFill();   
   stroke(255);
   ellipse(sentX,sentY,10,10); 
     
