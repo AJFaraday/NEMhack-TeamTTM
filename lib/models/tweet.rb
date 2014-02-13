@@ -18,7 +18,7 @@ class Tweet < ActiveRecord::Base
     )
     
     TTMMessage.create!(
-      :text => self.content,
+      :text => "[#{self.username}] #{self.content}",
       :source_type => 'Tweet',
       :source_id => self.id
     )

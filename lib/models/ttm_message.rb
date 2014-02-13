@@ -174,6 +174,7 @@ class TTMMessage < ActiveRecord::Base
 
   def play
     TTMMessage.pd.send_string(self.text)
+    puts ''
     self.update_attribute(:played, true) 
   end
  
