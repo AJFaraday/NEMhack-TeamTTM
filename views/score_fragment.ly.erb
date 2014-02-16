@@ -2,7 +2,14 @@
 
 #(set! paper-alist (cons '("two line" . (cons (* 10 in) (* 6 in))) paper-alist))
 
-\paper {#(set-paper-size "two line")}
+\paper {
+  #(set-paper-size "two line")
+  #(layout-set-staff-size 16)
+  #(define top-margin (* 0.5 cm))
+  #(define bottom-margin (* 0.5 cm))
+  #(define left-margin (* 0.5 cm))
+  #(define right-margin (* 0.5 cm))
+}
 
 rhMusic = {
   <%= @right_hand %>
