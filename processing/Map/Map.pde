@@ -4,14 +4,17 @@ String place = "guildford";
 
 void setup() {
   // set up canvas
-  size(640, 360);
+  size(640, 640);
 
   // load image from url
   // url is from google static maps api... https://developers.google.com/maps/documentation/staticmaps/?csw=1
-  String url = "http://maps.googleapis.com/maps/api/staticmap?center=PLACE&size=WIDTHxHEIGHT&sensor=false";
-  url = url.replaceAll("PLACE",place);
-  url = url.replaceAll("WIDTH",str(width));  
-  url = url.replace("HEIGHT",str(height));
+  String url = "http://maps.googleapis.com/maps/api/staticmap?zoom=13&size=WIDTHxHEIGHT&sensor=false";
+  url = url.replace("WIDTH",str(height));  
+  url = url.replace("HEIGHT",str(width));
+  //url = url + "&center=" + place;
+  url += "&markers=51.211911,-0.6224141|51.2711197,-0.5084325";
+  
+  print(url);
   
   img = loadImage(url,"png");
   
@@ -24,9 +27,9 @@ void draw() {
   
   stroke(0);
   noFill();
-  if(mousePressed){
-    ellipse(mouseX,mouseY,10,10);
-  }
+  
+  ellipse(304,192,10,10);
+    
 }
 
 
