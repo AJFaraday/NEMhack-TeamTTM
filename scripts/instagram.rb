@@ -14,23 +14,10 @@ loop do
   puts "Looking for images from lat: #{lat} long: #{long}"
 
   # Get a list of media close to a given latitude and longitude.
-  images = Instagram.media_search(lat,long)
+  images = Instagram.media_search(lat,long,{:distance => 5000})
   InstaImage.create_from_array(images)
 
   # Take a break
   sleep 5
 
-  # look for locations (points of interest) and pull media linked to these locations
-  locations = Instagram.location_search(lat, long)
-
-  locations.each_with_index do |location,idx|
-    puts "location #{idx + 1} of #{locations.count}"
-    puts "Looking for images from #{location[:name]}"
-
-    images = Instagram.location_recent_media(location[:id])
-    InstaImage.create_from_array(images)
-  end
-
-  # take a break
-  sleep 5
 end

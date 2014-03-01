@@ -8,62 +8,87 @@ import de.fhpotsdam.unfolding.marker.*;
 
 UDP udp;  // define the UDP object (sets up)
  
-// experimental stuff
-float[][] positions;
-float[] pos; 
- 
 UnfoldingMap map;
 PImage twitterLogo;
 SimplePointMarker tweetMarker;
+int mapFrames;
+Tweet[] tweets;
+Instagram[] instagrams;
+
+PGraphics tweetLayer;
+PGraphics mapLayer;
 
 void setup() {
   // low frame rate to attempt lighter load
-  frameRate(4); 
-  
+  frameRate(10); 
+
   size(800,600);
-  map = new UnfoldingMap(this, new Microsoft.AerialProvider()); 
-  //map = new UnfoldingMap(this);
-  // this is for mouse interaction
-  Location guildford = new Location(51.23622f, -0.570409f);
+  tweetLayer = createGraphics(width,height);
   
-  map.zoomAndPanTo(guildford, 12);
+  // Setting up map
+  map = new UnfoldingMap(this, new Microsoft.AerialProvider()); 
+  Location guildford = new Location(51.23622f, -0.570409f);  
+  map.zoomAndPanTo(guildford, 13);
+  mapFrames = 50; // my own for initial load and then no processing
   
   // get logo and place at marker location
   twitterLogo = loadImage("Twitter_logo_blue.png");
   
   // UDP connectivity setup 
   udp = new UDP( this, 6000 ); 
-  udp.listen( true );
+  udp.listen( true );   
+
+  // array of tweets for display
+  tweets = new Tweet[0];
+  instagrams = new Instagram[0];
   
-  positions = new float[0][0];
 }
 
 void draw(){
-  map.draw();
-  
-  for (int i = 0; i < positions.length; i++) {
-    pos = positions[i];
-    image(twitterLogo, pos[0],pos[1],15,12);
+  //if (mapFrames > 0) {
+    map.draw();
+  //  mapFrames -= 1;
+  //}
+
+  //draw instagram images
+  for (Instagram instagram : instagrams) {
+    instagram.show();
   }
+  
+  // draw tweets  
+  tweetLayer.beginDraw();
+  tweetLayer.clear();
+  for (Tweet tweet : tweets) {
+    tweet.show();
+  }
+  tweetLayer.endDraw(); 
+  image(tweetLayer,0,0);
+  
+
 }
 
 void receive( byte[] data, String ip, int port ) {  // <-- extended handler
-  String message = new String( data );
-  println(message);
-  String[] parts = split(message, "::::");
-  float sentLat = float(parts[0]);
-  float sentLong = float(parts[1]);    //"24" -> 24
+  String networkMessage = new String( data );
+  println(networkMessage);
+  String[] parts = split(networkMessage, "::::");
+  String type = parts[0]; // tweet
+  float sentLat = float(parts[1]);
+  float sentLong = float(parts[2]);
+  String sentMessage = parts[3];  
 
-  Location tweet = new Location(sentLat, sentLong);
-  tweetMarker = new SimplePointMarker(tweet);  
-  ScreenPosition tweetPos = tweetMarker.getScreenPosition(map);
-  //image(img,tweetPos.x,tweetPos.y,15,10);
-  float[] pos = {tweetPos.x,tweetPos.y};
- 
-  //positions.append(pos);
-
-  positions = (float[][])append(positions, pos);  
-  
-  // simple marker placement
-  //map.addMarkers(tweetMarker);
+  if (type.equals("tweet")) {
+    if (sentLat > 0) {
+      Tweet twt = new Tweet(sentLat,sentLong,sentMessage);
+      tweets = (Tweet[]) append(tweets, twt);
+    }
+  } 
+  else if (type.equals("instagram")) {
+    if (sentLat > 0) {
+      Instagram inst = new Instagram(sentLat,sentLong,sentMessage);
+      instagrams = (Instagram[]) append(instagrams, inst);
+    }
+    
+  }
 }
+
+

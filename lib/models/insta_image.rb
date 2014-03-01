@@ -15,7 +15,6 @@ class InstaImage < ActiveRecord::Base
  
   def InstaImage.create_from_array(array)
     if array.any?
-      image_list = `ls #{File.dirname(__FILE__)}/../images`
       array.each do |hash|
         i = InstaImage.new
 
@@ -28,14 +27,9 @@ class InstaImage < ActiveRecord::Base
         i.lat = loc[:latitude]
         i.long = loc[:longitude]
       
-        i.url = hash[:images][:standard_resolution][:url]
-        i.filename = i.url.split('/')[-1]
-        if InstaImage.downloaded?(i.filename)
-          puts "#{i.url} is already downloaded."
-        else
-          `cd #{File.dirname(__FILE__)}/../../images && wget #{i.url}`
-          i.save!
-        end
+        i.url = hash[:images][:thumbnail][:url]
+
+        i.save unless InstaImage.find_by_url(i.url)
       end
     end
   end
